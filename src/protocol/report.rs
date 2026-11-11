@@ -5,14 +5,14 @@ use crate::error::ProtocolError;
 use super::Action;
 
 
-/// Response package for animus communication.
+/// Response package for runtime service communication.
 /// Use this struct and methods within your application 
 /// to accurately parse response messages.
 #[derive(Debug, Clone, Eq, PartialEq)]
 #[derive(Serialize, Deserialize)]
 pub struct Report {
 
-    /// The name of the animus sending the response.
+    /// The name of the network runtime sending the response.
     pub name: String,
 
     /// The command action that triggered the response.

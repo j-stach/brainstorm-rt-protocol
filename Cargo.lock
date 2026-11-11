@@ -3,16 +3,6 @@
 version = 4
 
 [[package]]
-name = "animusd-lib"
-version = "0.1.0"
-dependencies = [
- "bincode",
- "cajal-cx",
- "serde",
- "thiserror",
-]
-
-[[package]]
 name = "bincode"
 version = "1.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -22,12 +12,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "cajal-cx"
+name = "brainstorm-cx"
 version = "0.1.0"
 dependencies = [
  "serde",
  "thiserror",
  "tokio",
+]
+
+[[package]]
+name = "brainstorm-rt-protocol"
+version = "0.1.0"
+dependencies = [
+ "bincode",
+ "brainstorm-cx",
+ "serde",
+ "thiserror",
 ]
 
 [[package]]

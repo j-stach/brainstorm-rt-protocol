@@ -2,23 +2,23 @@
 use serde::{ Serialize, Deserialize };
 use crate::error::ProtocolError;
 
-/// Command package for animus communication.
+/// Command package for runtime service communication.
 /// Use this struct and methods within your application 
 /// to generate accurate command messages.
 #[derive(Debug, Clone, Eq, PartialEq)]
 #[derive(Serialize, Deserialize)]
 pub struct Command {
 
-    /// The name of the animus this command targets.
+    /// The name of the network this command targets.
     pub name: String,
 
-    /// The action to be executed by the animus.
+    /// The action to be executed by the runtime service.
     pub action: Action,
 } 
 
 impl Command {
 
-    /// Provide the name of the animus and the action to perform.
+    /// Provide the name of the network and the runtime action to perform.
     pub fn new(name: &str, action: Action) -> Self {
         Command { 
             name: name.to_owned(), 
@@ -26,7 +26,7 @@ impl Command {
         }
     }
 
-    /// The animus will do nothing.
+    /// The runtime service will do nothing.
     /// This is used to ignore non-command UDP messages,
     /// but may also be useful in testing.
     pub fn ignore() -> Self {
@@ -51,19 +51,19 @@ impl Command {
 }
 
 /// Commands for controlling service behavior.
-/// Parallel to `AnimusCommand` from Brainstorm.
+/// Parallel to `RuntimeCommand` from the Brainstorm CLI.
 #[derive(Debug, Clone, Eq, PartialEq)]
 #[derive(Serialize, Deserialize)]
 pub enum Action {
 
-    /// Gets the name of the animus.
+    /// Gets the name of the network.
     /// Will execute even when not targeted: used for discovery.
     Query,
 
     /// Gets the name of the `Complex` that is managed by this animus.
     Name,
 
-    /// Gets the version of `animusd` that is running.
+    /// Gets the version of `brainstorm-rt` that is running.
     Version,
 
     /// Returns "Success" if animus is awake, and "Fail" if asleep.
@@ -78,10 +78,10 @@ pub enum Action {
     /// Returns a list of the tract names of each Input.
     ListInputs,
 
-    /// Returns a list of `cajal_cx::ReceiverInfo` of each Input.
+    /// Returns a list of `brainstorm_cx::ReceiverInfo` of each Input.
     ReportInputs,
 
-    /// Returns the ReceiverInfo of a tract by name, if it exists.
+    /// Returns the `ReceiverInfo` of a tract by name, if it exists.
     InputInfo(String),
 
     /// Begin processing signals.
@@ -93,16 +93,16 @@ pub enum Action {
     /// Stop processing new stimuli (spin down neurotransmission).
     Sleep,
 
-    /// Shut down the Animus service.
+    /// Shut down the runtime service.
     Terminate,
 
-    /// The animus will do nothing.
+    /// The runtime service will do nothing.
     /// This is used to ignore non-command UDP messages.
     Ignore,
 
     /// Connect the appropriate Output to the Input in the report.
     /// Passes the `ReceiverReport` as bytes.
-    LinkOutput(cajal_cx::tract::receiver::ReceiverInfo),
+    LinkOutput(brainstorm_cx::tract::receiver::ReceiverInfo),
 
     /// Attempt to link an Output to an arbitrary SocketAddr.
     /// This linkage is not checked for ReceiverInfo (unsafe), 
